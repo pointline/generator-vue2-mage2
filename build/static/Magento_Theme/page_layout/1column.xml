@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <update handle="empty"/>
+    <referenceContainer name="after.body.start" remove="true"></referenceContainer>
+    <referenceContainer name="page.wrapper" remove="true"></referenceContainer>
+
+    <container name="silk.page.wrapper" as="silk_page_wrapper" label="silk page wrapper" htmlTag="div" htmlClass="silk-page-wrapper">
+      <container name="silk.header.wrapper" as="silk_header_wrapper" htmlTag="header" htmlClass="header-wrapper">
+        <block class="Magento\Framework\View\Element\Template" name="silk.header" as="silk_header" template="Magento_Theme::html/header.phtml"/>
+      </container>
+
+      <container name="silk.main" as="silk_main" htmlTag="div" htmlClass="main">
+        <block class="Magento\Framework\View\Element\Template" name="silk.app" as="silk_app" template="Magento_Theme::html/app.phtml"/>
+      </container>
+
+      <container name="silk.footer.wrapper" as="silk.footer_wrapper" htmlTag="footer" htmlClass="footer">
+        <block class="Magento\Framework\View\Element\Template" name="silk.footer" as="silk_footer" template="Magento_Theme::html/footer.phtml"/>
+      </container>
+
+      <container name="silk.resource.wrapper" as="silk_resource_wrapper">
+        <block class="Magento\Framework\View\Element\Template" name="silk.resource.config" as="silk_resource.config" template="Magento_Theme::require-config.phtml" />
+      </container>
+
+    </container>
+</layout>
