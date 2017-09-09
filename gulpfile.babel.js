@@ -17,19 +17,37 @@ gulp.task('init', () => {
   Util.initDir(config.themes)
 })
 
-gulp.task('scripts', () => {
+gulp.task('babel', () => {
   if (!themeDir) return
-  let f = $.filter((file) => {
-    return !/(Magento_\w+require-config.js)|lib/.test(file.path)
+  let fLib = $.filter((file) => {
+    return !/lib/ig.test(file.path)
   }, {restore: true})
   return gulp.src([`${themeDir}/**/*.js`, `!${themeDir}/*/require-config.js`])
-    .pipe(f)
+    .pipe(fLib)
     .pipe($.babel())
-    .pipe(f.restore)
+    .pipe(fLib.restore)
+    .pipe(gulp.dest(`${themeDir}/.tmp`))
+})
+
+gulp.task('scripts', ['babel'], () => {
+  if (!themeDir) return
+  let fModules = $.filter((file) => {
+    return /modules/ig.test(file.path)
+  }, {restore: true})
+  return gulp.src(`${themeDir}.tmp/**/*.js`)
+    .pipe(fModules)
+    .pipe($.requirejsOptimize((file) => {
+      return {
+        'baseUrl': `${themeDir}.tmp`,
+        'optimize': 'none',
+        'mainConfigFile': `${themeDir}/web/require-config.js`
+      }
+    }))
     .pipe($.rename((path) => {
       let dirname = path.dirname
       path.dirname = dirname.slice(dirname.indexOf('/'))
     }))
+    .pipe($.debug({title: 'unicorn:'}))
     .pipe(gulp.dest(outputDir))
 })
 
@@ -71,5 +89,5 @@ gulp.task('mergeConfig', () => {
   for (let item of Object.keys(requireDir)) {
     requireConfigObj = _.merge(requireConfigObj, requireDir[item]['require-config'].default)
   }
-  outputFileSync(`${outputDir}/web/require-config.js`, `require.config(${JSON.stringify(requireConfigObj)})`)
+  outputFileSync(`${themeDir}/web/require-config.js`, `require.config(${JSON.stringify(requireConfigObj)})`)
 })

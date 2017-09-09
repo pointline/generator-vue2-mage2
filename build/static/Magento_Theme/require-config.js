@@ -5,8 +5,8 @@ const config = {
     }
   },
   paths: {
-    'vue': './lib/vue',
-    'homeApp': './components/homeApp'
+    'vue': 'Magento_Theme/web/lib/vue',
+    'homeApp': 'Magento_Theme/web/components/homeApp'
   },
   deps: [
 

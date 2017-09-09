@@ -8,8 +8,8 @@
 <page layout="1columns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="default_head_blocks"/>
     <body>
-        <referenceContainer name="silk.resource.wrapper">
-          <block class="Magento\Framework\View\Element\Template" name="silk.resource.home" as="silk_resource_home" template="Magento_Theme::resource-home.phtml" />
+        <referenceContainer name="silk.modules.wrapper">
+          <block class="Magento\Framework\View\Element\Template" name="silk.modules.home" as="silk_modules_home" template="Magento_Theme::module_home.phtml" />
         </referenceContainer>
     </body>
 </page>

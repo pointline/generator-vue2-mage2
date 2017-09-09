@@ -23,8 +23,7 @@
         <block class="Magento\Framework\View\Element\Template" name="silk.footer" as="silk_footer" template="Magento_Theme::html/footer.phtml"/>
       </container>
 
-      <container name="silk.resource.wrapper" as="silk_resource_wrapper">
-        <block class="Magento\Framework\View\Element\Template" name="silk.resource.config" as="silk_resource.config" template="Magento_Theme::require-config.phtml" />
+      <container name="silk.modules.wrapper" as="silk_modules_wrapper">
       </container>
 
     </container>
