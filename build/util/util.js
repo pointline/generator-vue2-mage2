@@ -9,7 +9,7 @@ import config from '../../config'
 import path from 'path'
 
 /**
- * 工具类-主题目录
+ * 工具类
  */
 class Util {
   /**
@@ -58,10 +58,8 @@ class Util {
     Promise.all([
       makeDir(`${dir}/layout`),
       makeDir(`${dir}/templates`),
-      makeDir(`${dir}/web/images`),
       makeDir(`${dir}/web/components`),
       makeDir(`${dir}/web/modules`),
-      makeDir(`${dir}/web/fonts`),
       makeDir(`${dir}/web/lib`)
     ]).then((path) => {
       gutil.log(gutil.colors.green(`模块创建成功：${dir}`))
@@ -87,13 +85,7 @@ class Util {
     gulp.src('./build/static/etc/view.xml').pipe(gulp.dest(`${dir}/etc`))
     gulp.src('./build/static/media/preview.jpg').pipe(gulp.dest(`${dir}/media`))
 
-    this.createDir(`${dir}/web/css/lib`)
-    this.createDir(`${dir}/web/css/modules`)
-    this.createDir(`${dir}/web/css/lib`)
-    outputFileSync(`${dir}/web/css/main.sass`, '')
-    this.createDir(`${dir}/web/images`)
-    this.createDir(`${dir}/web/fonts`)
-
+    gulp.src('./build/static/web/**').pipe(gulp.dest(`${dir}/web`))
     gulp.src('./build/static/Magento_Theme/**').pipe(gulp.dest(`${dir}/Magento_Theme`))
   }
 
@@ -102,9 +94,9 @@ class Util {
    * @returns {string}
    */
   static themeDir () {
-    let currentTheme = args.theme
+    let currentTheme = this.currentTheme()
     if (currentTheme) {
-      let theme = config.themes[args.theme]
+      let theme = config.themes[currentTheme]
       return `./${theme.area}/${theme.src}/`
     } else {
       return ''
@@ -116,13 +108,36 @@ class Util {
    * @returns {*}
    */
   static outputDir () {
-    let currentTheme = args.theme
+    let currentTheme = this.currentTheme()
     if (currentTheme) {
-      let theme = config.themes[args.theme]
+      let theme = config.themes[currentTheme]
       return `${path.join(__dirname, '../../../')}app/design/${theme.area}/${theme.src}/`
     } else {
       return ''
     }
+  }
+
+  /**
+   * 设置排除依赖文件
+   * @returns {Util.excludeShallow|*|Array}
+   */
+  static excludeShallow () {
+    let currentTheme = this.currentTheme()
+    return config.themes[currentTheme].excludeShallow
+  }
+
+  /**
+   * 当前主题
+   */
+  static currentTheme () {
+    return args.theme
+  }
+
+  /**
+   * 当前模式
+   */
+  static mode () {
+    return args.mode
   }
 }
 

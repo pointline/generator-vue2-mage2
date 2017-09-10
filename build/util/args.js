@@ -13,13 +13,13 @@ const args = yargs.options({
     type: 'string',
     desc: 'themes',
     choices: [...Object.keys(config.themes)]
+  },
+  'mode': {
+    alias: 'prod',
+    type: 'boolean',
+    default: false,
+    desc: 'Production mode'
   }
-  // 'production': {
-  //   alias: 'prod',
-  //   type: 'boolean',
-  //   default: false,
-  //   desc: 'Production mode'
-  // }
 })
   .help()
   .argv
