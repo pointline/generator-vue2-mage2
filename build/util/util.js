@@ -9,24 +9,24 @@ import config from '../../config'
 import path from 'path'
 
 /**
- * 工具类-目录
+ * 工具类-主题目录
  */
 class Util {
   /**
-   * 初始化目录
-   * @param themes 主题配置文件
+   * 初始化主题目录
    */
-  static initDir (themes) {
+  static initDir () {
+    let themes = config.themes
     for (let item of Object.keys(themes)) {
       let dir = `${themes[item].area}/${themes[item].src}`
       if (!this.isDir(dir)) {
-        this.createConfigFile(dir, themes[item].name)
+        this.initConfigFile(dir, themes[item].name)
         for (let key in moduleList) {
           let moduleDir = `${dir}/Magento_${moduleList[key]}`
-          this.createThemeDir(moduleDir)
+          this.initModule(moduleDir)
         }
       } else {
-        gutil.log(gutil.colors.green(`目录已存在：${dir}`))
+        gutil.log(gutil.colors.green(`主题目录已存在：${dir}`))
       }
     }
   }
@@ -43,53 +43,39 @@ class Util {
   /**
    * 创建目录
    * @param dir
-   * @constructor
    */
   static createDir (dir) {
     makeDir(dir).then(path => {
-      gutil.log(gutil.colors.green(`创建成功：${dir}`))
+      gutil.log(gutil.colors.green(`目录创建成功：${dir}`))
     })
   }
 
   /**
-   * 创建主题目录
+   * 初始化模块目录
    * @param dir
-   * @constructor
    */
-  static createThemeDir (dir) {
+  static initModule (dir) {
     Promise.all([
-      makeDir(`${dir}/layout`).then(path => {
-        gutil.log(gutil.colors.green(`创建成功：${dir}/layout`))
-      }),
-      makeDir(`${dir}/templates`).then(path => {
-        gutil.log(gutil.colors.green(`创建成功：${dir}/templates`))
-      }),
-      makeDir(`${dir}/web/images`).then(path => {
-        gutil.log(gutil.colors.green(`创建成功：${dir}/web/images`))
-      }),
-      makeDir(`${dir}/web/components`).then(path => {
-        gutil.log(gutil.colors.green(`创建成功：${dir}/web/components`))
-      }),
-      makeDir(`${dir}/web/modules`).then(path => {
-        gutil.log(gutil.colors.green(`创建成功：${dir}/web/modules`))
-      }),
-      makeDir(`${dir}/web/fonts`).then(path => {
-        gutil.log(gutil.colors.green(`创建成功：${dir}/web/fonts`))
-      }),
-      makeDir(`${dir}/web/lib`).then(path => {
-        gutil.log(gutil.colors.green(`创建成功：${dir}/web/lib`))
-      })
-    ])
+      makeDir(`${dir}/layout`),
+      makeDir(`${dir}/templates`),
+      makeDir(`${dir}/web/images`),
+      makeDir(`${dir}/web/components`),
+      makeDir(`${dir}/web/modules`),
+      makeDir(`${dir}/web/fonts`),
+      makeDir(`${dir}/web/lib`)
+    ]).then((path) => {
+      gutil.log(gutil.colors.green(`模块创建成功：${dir}`))
+    })
 
     gulp.src('./build/static/require-config.js').pipe(gulp.dest(`${dir}`))
   }
 
   /**
-   * 创建主题配置文件及所需资源
+   * 初始化主题配置文件及所需资源
    * @param dir
    * @param themeName
    */
-  static createConfigFile (dir, themeName) {
+  static initConfigFile (dir, themeName) {
     let registration = fs.readFileSync('./build/static/registration.php', 'utf8')
     let registrationR = registration.replace(/ThemePath/, dir)
     outputFileSync(`${dir}/registration.php`, registrationR)
@@ -115,7 +101,7 @@ class Util {
    * 获取当前主题路径
    * @returns {string}
    */
-  static currentDir () {
+  static themeDir () {
     let currentTheme = args.theme
     if (currentTheme) {
       let theme = config.themes[args.theme]
@@ -125,6 +111,10 @@ class Util {
     }
   }
 
+  /**
+   * 主题输出目录
+   * @returns {*}
+   */
   static outputDir () {
     let currentTheme = args.theme
     if (currentTheme) {
