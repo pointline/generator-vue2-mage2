@@ -1,3 +1,4 @@
+/* eslint no-undef: "off" */
 define([], function () {
   return {
     template: `
