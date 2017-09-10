@@ -4,7 +4,6 @@ import Util from './build/util/util'
 import requireDirectory from 'require-directory'
 import _ from 'lodash'
 import outputFileSync from 'output-file-sync'
-import runSequence from 'run-sequence'
 import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
 import browserSync from 'browser-sync'
@@ -13,15 +12,16 @@ import del from 'del'
 const $ = gulpLoadPlugins({lazy: true})
 const themeDir = Util.themeDir()
 const outputDir = Util.outputDir()
-const sequence = runSequence.use(gulp)
 const reload = browserSync.reload
 
 gulp.task('default', () => {
-
+  return new Promise(resolve => {
+    $.sequence('clean', 'build', resolve)
+  })
 })
 
-gulp.task('build', () => {
-  sequence('mergeConfig', ['xml', 'phtml', 'styles', 'fonts', 'php', 'images'], 'scripts')
+gulp.task('build', (cb) => {
+  $.sequence(['fonts', 'php', 'images', 'xml', 'phtml'], 'styles', 'mergeConfig', 'scripts')(cb)
 })
 
 gulp.task('init', () => {
@@ -82,8 +82,8 @@ gulp.task('buildScripts', () => {
     .pipe(gulp.dest(outputDir))
 })
 
-gulp.task('scripts', () => {
-  sequence('babel', 'scriptsDep', 'buildScripts')
+gulp.task('scripts', (cb) => {
+  $.sequence('babel', 'scriptsDep', 'buildScripts')(cb)
 })
 
 gulp.task('xml', () => {
@@ -147,31 +147,33 @@ gulp.task('fonts', () => {
 
 gulp.task('mergeConfig', () => {
   if (!themeDir) return
-  let whitelist = /require-config.js/
+  let whitelist = /Magento_[\w]+\/require-config.js/
   let requireDir = requireDirectory(module, themeDir, {include: whitelist})
   let requireConfigObj = {}
   for (let item of Object.keys(requireDir)) {
     requireConfigObj = _.merge(requireConfigObj, requireDir[item]['require-config'].default)
   }
-  outputFileSync(`${themeDir}web/require-config.js`, `require.config(${JSON.stringify(requireConfigObj)})`)
+  let config = String('require.config(' + JSON.stringify(requireConfigObj) + ')')
+  outputFileSync(`${themeDir}web/require-config.js`, config, 'utf-8')
 })
 
 gulp.task('clean', () => {
-  del([`${outputDir}`, `${themeDir}.tmp`, `${themeDir}web/require-config.js`], {force: true})
+  del.bind(null, [`${outputDir}`, `${themeDir}.tmp`, `${themeDir}web/require-config.js`], {force: true})
 })
 
-gulp.task('serve', ['build'], () => {
-  browserSync.init({
-    notify: false,
-    port: 9000,
-    ui: false,
-    proxy: 'http://magentotest.local'
-  })
+gulp.task('serve', () => {
+  $.sequence('clean', 'build', () => {
+    browserSync.init({
+      notify: false,
+      port: 9000,
+      proxy: 'http://magentotest.local'
+    })
 
-  gulp.watch(`${themeDir}**/*.scss`, ['styles']).on('change', reload)
-  gulp.watch(`${themeDir}**/*.js`, ['scripts']).on('change', reload)
-  gulp.watch(`${themeDir}**/*.xml`, ['xml']).on('change', reload)
-  gulp.watch(`${themeDir}**/*.phtml`, ['phtml']).on('change', reload)
-  gulp.watch(`${themeDir}**/*.php`, ['php']).on('change', reload)
-  gulp.watch(`${themeDir}**/*.{jpg,jpeg,png,gif,svg}`, ['images']).on('change', reload)
+    gulp.watch(`${themeDir}**/*.scss`, ['styles']).on('change', reload)
+    gulp.watch(`${themeDir}**/*.js`, ['scripts']).on('change', reload)
+    gulp.watch(`${themeDir}**/*.xml`, ['xml']).on('change', reload)
+    gulp.watch(`${themeDir}**/*.phtml`, ['phtml']).on('change', reload)
+    gulp.watch(`${themeDir}**/*.php`, ['php']).on('change', reload)
+    gulp.watch(`${themeDir}**/*.{jpg,jpeg,png,gif,svg}`, ['images']).on('change', reload)
+  })
 })
