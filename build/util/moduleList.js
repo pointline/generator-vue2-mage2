@@ -1,3 +1,7 @@
+/**
+ * 自动生成模块列表
+ * @type {[string,string,string,string,string,string,string,string,string,string,string,string]}
+ */
 const moduleList = [
   'Catalog',
   'CatalogSearch',
@@ -10,7 +14,6 @@ const moduleList = [
   'Paypal',
   'Review',
   'Sales',
-  'Theme',
   'Wishlist'
 ]
 
