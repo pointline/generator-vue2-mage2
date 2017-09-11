@@ -5,21 +5,19 @@ import browserSync from 'browser-sync'
 
 const $ = gulpLoadPlugins({
   lazy: true,
-  pattern: ['gulp-*', 'gulp.*', '@*/gulp{-,.}*', 'cssnano', 'autoprefixer', 'del']
+  pattern: ['gulp-*', 'gulp.*', '@*/gulp{-,.}*', 'cssnano', 'autoprefixer', 'delete']
 })
 const themeDir = Util.themeDir()
 const outputDir = Util.outputDir()
 const reload = browserSync.reload
 
-gulp.task('default', () => {
+gulp.task('default', ['clean'], () => {
   if (!Util.isThemeDir()) return
-  return new Promise(resolve => {
-    $.sequence('clean', 'build', resolve)
-  })
+  gulp.start('build')
 })
 
 gulp.task('build', (cb) => {
-  $.sequence(['fonts', 'php', 'images', 'xml', 'phtml'], 'styles', 'mergeConfig', 'scripts')(cb)
+  $.sequence('fonts', 'php', 'xml', 'phtml', 'images', 'styles', 'mergeConfig', 'scripts')(cb)
 })
 
 gulp.task('init', () => {
@@ -46,10 +44,10 @@ gulp.task('babel', () => {
 })
 
 gulp.task('scriptsDep', () => {
-  if (Util.excludeShallow().length > 0) {
-    let fLibRegExp = new RegExp(`${Util.excludeShallow()}`, 'ig')
+  if (Util.excludeShallow().length > 0 || Util.includeJsLib() > 0) {
+    let fLibRegExp = new RegExp(`${[...Util.excludeShallow(), ...Util.includeJsLib()].join('|')}`, 'ig')
     let fLib = $.filter((file) => {
-      return fLibRegExp.test(file.path)
+      return Boolean(file.path.match(fLibRegExp))
     })
     return gulp.src(`${themeDir}.tmp/**/lib/*.js`)
       .pipe($.plumber())
@@ -146,7 +144,7 @@ gulp.task('mergeConfig', () => {
 })
 
 gulp.task('clean', () => {
-  $.del.bind(null, [`${outputDir}`, `${themeDir}.tmp`, `${themeDir}web/require-config.js`], {force: true})
+  $.delete.sync([`${outputDir}`, `${themeDir}.tmp`, `${themeDir}web/require-config.js`], {force: true})
 })
 
 gulp.task('serve', () => {
