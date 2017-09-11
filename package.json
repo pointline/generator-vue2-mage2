@@ -13,7 +13,7 @@
     "babel-register": "^6.26.0",
     "browser-sync": "^2.18.13",
     "cssnano": "^3.10.0",
-    "del": "^3.0.0",
+    "delete": "^1.1.0",
     "eslint": "^4.6.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
