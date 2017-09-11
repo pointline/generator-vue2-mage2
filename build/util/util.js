@@ -1,7 +1,7 @@
 import makeDir from 'make-dir'
 import fs from 'fs'
 import gutil from 'gulp-util'
-import moduleList from './moduleList'
+import modulesList from './modulesList'
 import outputFileSync from 'output-file-sync'
 import gulp from 'gulp'
 import args from './args'
@@ -18,18 +18,16 @@ class Util {
    * 初始化主题目录
    */
   static initDir () {
-    let themes = config.themes
-    for (let item of Object.keys(themes)) {
-      let dir = `${themes[item].area}/${themes[item].src}`
-      if (!this.isDir(dir)) {
-        this.initConfigFile(dir, themes[item].name)
-        for (let key in moduleList) {
-          let moduleDir = `${dir}/Magento_${moduleList[key]}`
-          this.initModule(moduleDir)
-        }
-      } else {
-        gutil.log(gutil.colors.green(`主题目录已存在：${dir}`))
+    let themeDir = this.themeDir()
+    if (!this.isDir(themeDir)) {
+      this.initConfigFile(themeDir, this.currentThemeName())
+      let totalModules = [...modulesList, ...this.extraModulesList()]
+      for (let key in totalModules) {
+        let moduleDir = `${themeDir}/Magento_${totalModules[key]}`
+        this.initModule(moduleDir)
       }
+    } else {
+      gutil.log(gutil.colors.red(`主题目录已存在：${themeDir}`))
     }
   }
 
@@ -99,7 +97,7 @@ class Util {
     let currentTheme = this.currentTheme()
     if (currentTheme) {
       let theme = config.themes[currentTheme]
-      return `./${theme.area}/${theme.src}/`
+      return `./frontend/${theme.src}/`
     } else {
       return ''
     }
@@ -113,7 +111,7 @@ class Util {
     let currentTheme = this.currentTheme()
     if (currentTheme) {
       let theme = config.themes[currentTheme]
-      return `${path.join(__dirname, '../../../')}app/design/${theme.area}/${theme.src}/`
+      return `${path.join(__dirname, '../../../')}app/design/frontend/${theme.src}/`
     } else {
       return ''
     }
@@ -129,10 +127,17 @@ class Util {
   }
 
   /**
-   * 当前主题
+   * 指定主题标识
    */
   static currentTheme () {
     return args.theme
+  }
+
+  /**
+   * 当前主题名
+   */
+  static currentThemeName () {
+    return config.themes[this.currentTheme()].name
   }
 
   /**
@@ -185,6 +190,27 @@ class Util {
       return config.siteConfig.proxy
     } else {
       gutil.log(gutil.colors.red('请先在配置文件中设置proxy'))
+      return false
+    }
+  }
+
+  /**
+   * 获取扩展的模块列表
+   * @returns {*}
+   */
+  static extraModulesList () {
+    return config.themes[this.currentTheme()].extraModulesList ? config.themes[this.currentTheme()].extraModulesList : []
+  }
+
+  /**
+   * 判断主题是否存在
+   * @returns {boolean}
+   */
+  static isThemeDir () {
+    if (this.isDir(this.themeDir())) {
+      return true
+    } else {
+      gutil.log(gutil.colors.red(`主题目录不存在：${this.themeDir()}`))
       return false
     }
   }
