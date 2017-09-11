@@ -7,6 +7,9 @@ const config = {
   paths: {
 
   },
+  shim: {
+
+  },
   deps: [
 
   ]

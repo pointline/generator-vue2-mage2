@@ -10,6 +10,9 @@ const config = {
     'lib/vue': 'Magento_Theme/web/lib/vue',
     'homeApp': 'Magento_Theme/web/components/homeApp'
   },
+  shim: {
+
+  },
   deps: [
 
   ]
