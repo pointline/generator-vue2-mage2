@@ -7,6 +7,8 @@ import gulp from 'gulp'
 import args from './args'
 import config from '../../config'
 import path from 'path'
+import requireDirectory from 'require-directory'
+import _ from 'lodash'
 
 /**
  * 工具类
@@ -118,12 +120,12 @@ class Util {
   }
 
   /**
-   * 设置排除依赖文件
+   * 设置需要排除的依赖文件，浅移除加载
    * @returns {Util.excludeShallow|*|Array}
    */
   static excludeShallow () {
     let currentTheme = this.currentTheme()
-    return config.themes[currentTheme].excludeShallow
+    return config.themes[currentTheme].excludeShallow ? config.themes[currentTheme].excludeShallow : []
   }
 
   /**
@@ -138,6 +140,53 @@ class Util {
    */
   static mode () {
     return args.mode
+  }
+
+  /**
+   * 合并所有require-config.js配置文件
+   */
+  static mergeConfig () {
+    let themeDir = path.join(__dirname, `../../${this.themeDir()}`)
+    if (this.isDir(themeDir)) {
+      let whitelist = /Magento_[\w]+\/require-config.js/
+      let requireDir = requireDirectory(module, themeDir, {include: whitelist})
+      let requireConfigObj = {}
+      for (let item of Object.keys(requireDir)) {
+        requireConfigObj = _.merge(requireConfigObj, requireDir[item]['require-config'].default)
+      }
+      let config = String('require.config(' + JSON.stringify(requireConfigObj) + ')')
+      outputFileSync(`${themeDir}web/require-config.js`, config, 'utf-8')
+    } else {
+      gutil.log(gutil.colors.red(`目录不存在：${themeDir}`))
+    }
+  }
+
+  /**
+   * 是否开启模块压缩
+   * @returns {string}
+   */
+  static isUglify () {
+    return args.mode ? 'uglify' : 'none'
+  }
+
+  /**
+   * 监听的端口
+   */
+  static port () {
+    return args.prot
+  }
+
+  /**
+   * 代理URL
+   * @returns {*}
+   */
+  static proxy () {
+    if (config.siteConfig.proxy) {
+      return config.siteConfig.proxy
+    } else {
+      gutil.log(gutil.colors.red('请先在配置文件中设置proxy'))
+      return false
+    }
   }
 }
 
