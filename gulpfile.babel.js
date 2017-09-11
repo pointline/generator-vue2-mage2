@@ -12,6 +12,7 @@ const outputDir = Util.outputDir()
 const reload = browserSync.reload
 
 gulp.task('default', () => {
+  if (!Util.isThemeDir()) return
   return new Promise(resolve => {
     $.sequence('clean', 'build', resolve)
   })
