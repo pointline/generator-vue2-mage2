@@ -14,7 +14,7 @@ const config = {
 
   },
   deps: [
-
+    'Magento_Theme/web/lib/modernizr'
   ]
 }
 
