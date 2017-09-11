@@ -4,6 +4,7 @@
  *   name: 'Default name', // 主题名
  *   src: 'Default/default', // 主题放置路径
  *   extraModulesList: [], // 额外生成的模块
+ *   includeJsLib: [], // 引入额外的JS库
  *   excludeShallow: [] // 浅移除，不合并到模块中，作为一个http加载
  * }
  * @type {{point: {name: string, area: string, src: string}, white: {name: string, area: string, src: string, excludeShallow: [string]}}}
@@ -17,6 +18,7 @@ const themes = {
     name: 'White name',
     src: 'White/point',
     extraModulesList: [],
+    includeJsLib: ['lib/html5shiv.min', 'lib/respond.min'],
     excludeShallow: ['lib/vue']
   }
 }
