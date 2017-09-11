@@ -127,6 +127,14 @@ class Util {
   }
 
   /**
+   * 引入额外的JS库
+   */
+  static includeJsLib () {
+    let currentTheme = this.currentTheme()
+    return config.themes[currentTheme].includeJsLib ? config.themes[currentTheme].includeJsLib : []
+  }
+
+  /**
    * 指定主题标识
    */
   static currentTheme () {
