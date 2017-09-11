@@ -75,7 +75,7 @@ class Util {
    */
   static initConfigFile (dir, themeName) {
     let registration = fs.readFileSync('./build/static/registration.php', 'utf8')
-    let registrationR = registration.replace(/ThemePath/, dir)
+    let registrationR = registration.replace(/ThemePath/, dir.slice(2, dir.length-1))
     outputFileSync(`${dir}/registration.php`, registrationR)
 
     let theme = fs.readFileSync('./build/static/theme.xml', 'utf8')
