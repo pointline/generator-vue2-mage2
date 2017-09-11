@@ -1,2 +1,1 @@
-# Generator-theme-mage2
-magento2 theme generator
+# Generator-vu2-mage2
