@@ -7,20 +7,16 @@
  *   includeJsLib: [], // 引入额外的JS库
  *   excludeShallow: [] // 浅移除，不合并到模块中，作为一个http加载
  * }
- * @type {{point: {name: string, area: string, src: string}, white: {name: string, area: string, src: string, excludeShallow: [string]}}}
+ * @type {{point: {name: string, src: string, extraModulesList: Array, includeJsLib: [string,string], excludeShallow: [string]}}}
  */
 const themes = {
-  point: {
-    name: 'Point name',
-    src: 'Pointline/point'
-  },
-  white: {
-    name: 'White name',
-    src: 'White/point',
-    extraModulesList: [],
-    includeJsLib: ['lib/html5shiv.min', 'lib/respond.min'],
-    excludeShallow: ['lib/vue']
-  }
+  // point: {
+  //   name: 'Point name',
+  //   src: 'Pointline/point',
+  //   extraModulesList: [],
+  //   includeJsLib: ['html5shiv.min', 'respond.min'],
+  //   excludeShallow: ['lib/vue']
+  // }
 }
 
 export default themes
