@@ -9,6 +9,7 @@ import config from '../../config'
 import path from 'path'
 import requireDirectory from 'require-directory'
 import _ from 'lodash'
+import shell from 'gulp-shell'
 
 /**
  * 工具类
@@ -221,6 +222,26 @@ class Util {
       gutil.log(gutil.colors.red(`主题目录不存在：${this.themeDir()}`))
       return false
     }
+  }
+
+  /**
+   * 传入需要执行的command
+   * @param commands
+   */
+  static shell (commands = []) {
+    return shell.task(commands)
+  }
+
+  /**
+   * 获取magento的bin
+   * @returns {*}
+   */
+  static mageBin () {
+    let mageBin = path.join(__dirname, '../../../bin/magento')
+    if (this.isDir(mageBin)) {
+      return mageBin
+    }
+    return false
   }
 }
 
