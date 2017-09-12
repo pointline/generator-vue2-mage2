@@ -36,6 +36,7 @@
     "gulp-requirejs-optimize": "^1.2.0",
     "gulp-sass": "^3.1.0",
     "gulp-sequence": "^0.4.6",
+    "gulp-shell": "^0.6.3",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-strip-debug": "^1.1.0",
     "gulp-util": "^3.0.8",
