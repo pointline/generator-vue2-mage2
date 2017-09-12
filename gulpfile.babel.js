@@ -17,7 +17,7 @@ gulp.task('default', ['clean'], () => {
 })
 
 gulp.task('build', (cb) => {
-  $.sequence('fonts', 'php', 'xml', 'phtml', 'images', 'styles', 'mergeConfig', 'scripts')(cb)
+  $.sequence('fonts', 'php', 'cacheClean', 'phtml', 'images', 'styles', 'mergeConfig', 'scripts')(cb)
 })
 
 gulp.task('init', () => {
@@ -147,6 +147,10 @@ gulp.task('clean', () => {
   $.delete.sync([`${outputDir}`, `${themeDir}.tmp`, `${themeDir}web/require-config.js`], {force: true})
 })
 
+gulp.task('cacheClean', ['xml'], Util.shell([
+  `php ${Util.mageBin()} cache:clean`
+]))
+
 gulp.task('serve', () => {
   if (Util.proxy()) {
     $.sequence('clean', 'build', () => {
@@ -158,7 +162,7 @@ gulp.task('serve', () => {
 
       gulp.watch(`${themeDir}**/*.scss`, ['styles']).on('change', reload)
       gulp.watch(`${themeDir}**/*.js`, ['scripts']).on('change', reload)
-      gulp.watch(`${themeDir}**/*.xml`, ['xml']).on('change', reload)
+      gulp.watch(`${themeDir}**/*.xml`, ['cacheClean']).on('change', reload)
       gulp.watch(`${themeDir}**/*.phtml`, ['phtml']).on('change', reload)
       gulp.watch(`${themeDir}**/*.php`, ['php']).on('change', reload)
       gulp.watch(`${themeDir}**/*.{jpg,jpeg,png,gif,svg}`, ['images']).on('change', reload)
