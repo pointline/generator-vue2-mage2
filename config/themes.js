@@ -15,7 +15,7 @@ const themes = {
   //   src: 'Pointline/point',
   //   extraModulesList: [],
   //   includeJsLib: ['html5shiv.min', 'respond.min'],
-  //   excludeShallow: ['lib/vue']
+  //   excludeShallow: ['vue', 'modernizr.min']
   // }
 }
 
