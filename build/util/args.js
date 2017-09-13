@@ -15,6 +15,12 @@ const args = yargs.options({
     default: false,
     desc: 'Production mode'
   },
+  'cache': {
+    alias: 'c',
+    type: 'boolean',
+    default: false,
+    desc: 'Cache Clean'
+  },
   'prot': {
     alias: 'p',
     type: 'number',
