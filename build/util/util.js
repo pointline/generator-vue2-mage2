@@ -10,6 +10,7 @@ import path from 'path'
 import requireDirectory from 'require-directory'
 import _ from 'lodash'
 import shell from 'gulp-shell'
+import os from 'os'
 
 /**
  * 工具类
@@ -24,7 +25,7 @@ class Util {
       this.initConfigFile(themeDir, this.currentThemeName())
       let totalModules = [...modulesList, ...this.extraModulesList()]
       for (let key in totalModules) {
-        let moduleDir = `${themeDir}/Magento_${totalModules[key]}`
+        let moduleDir = `${themeDir}${this.ds()}Magento_${totalModules[key]}`
         this.initModule(moduleDir)
       }
     } else {
@@ -98,7 +99,8 @@ class Util {
     let currentTheme = this.currentTheme()
     if (currentTheme) {
       let theme = config.themes[currentTheme]
-      return `./frontend/${theme.src}/`
+      // return `./frontend/${theme.src}/`
+      return path.join(__dirname, `../../frontend/${theme.src}/`)
     } else {
       return ''
     }
@@ -160,16 +162,17 @@ class Util {
    * 合并所有require-config.js配置文件
    */
   static mergeConfig () {
-    let themeDir = path.join(__dirname, `../../${this.themeDir()}`)
+    // let themeDir = path.join(__dirname, `../../${this.themeDir()}`)
+    let themeDir = this.themeDir()
     if (this.isDir(themeDir)) {
-      let whitelist = /Magento_[\w]+\/require-config.js/
+      let whitelist = /Magento_[\w]+(\/|\\)require-config.js/
       let requireDir = requireDirectory(module, themeDir, {include: whitelist})
       let requireConfigObj = {}
       for (let item of Object.keys(requireDir)) {
         requireConfigObj = _.merge(requireConfigObj, requireDir[item]['require-config'].default)
       }
       let config = String('require.config(' + JSON.stringify(requireConfigObj) + ')')
-      outputFileSync(`${themeDir}web/require-config.js`, config, 'utf-8')
+      outputFileSync(`${themeDir}web${Util.ds()}require-config.js`, config, 'utf-8')
     } else {
       gutil.log(gutil.colors.red(`目录不存在：${themeDir}`))
     }
@@ -249,6 +252,22 @@ class Util {
       return mageBin
     }
     return false
+  }
+
+  /**
+   * 获取当前系统
+   * @returns {*}
+   */
+  static getOS () {
+    return os.platform()
+  }
+
+  /**
+   * 处理系统路径兼容性
+   * @returns {string}
+   */
+  static ds () {
+    return this.getOS() === "win32" ? "\\" : '/'
   }
 }
 
