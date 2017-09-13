@@ -9,6 +9,7 @@ const $ = gulpLoadPlugins({
 })
 const themeDir = Util.themeDir()
 const outputDir = Util.outputDir()
+const DS = Util.ds();
 const reload = browserSync.reload
 
 gulp.task('default', ['clean'], () => {
@@ -53,8 +54,7 @@ gulp.task('scriptsDep', () => {
       .pipe($.plumber())
       .pipe(fLib)
       .pipe($.rename((path) => {
-        let dirname = path.dirname.slice(path.dirname.indexOf('/')+1)
-        path.dirname = dirname.slice(dirname.indexOf('/')+4)
+        path.dirname = ''
       }))
       .pipe(gulp.dest(`${outputDir}web`))
   }
@@ -68,17 +68,16 @@ gulp.task('buildScripts', () => {
       return {
         'baseUrl': `${themeDir}.tmp`,
         'optimize': `${Util.isUglify()}`,
-        'mainConfigFile': `${themeDir}web/require-config.js`,
+        'mainConfigFile': `${themeDir}web${DS}require-config.js`,
         'excludeShallow': Util.excludeShallow()
       }
     }))
     .pipe($.if(Util.mode(), $.stripDebug()))
     .pipe($.rename((path) => {
-      let dirname = path.dirname
-      path.dirname = dirname.slice(dirname.indexOf('/'))
+      path.dirname = `${DS}modules`
     }))
     .pipe($.if(!Util.mode(), $.sourcemaps.write('.')))
-    .pipe(gulp.dest(outputDir))
+    .pipe(gulp.dest(`${outputDir}web`))
 })
 
 gulp.task('scripts', (cb) => {
@@ -120,7 +119,7 @@ gulp.task('styles', () => {
       $.cssnano()
     ]))
     .pipe($.if(!Util.mode(), $.sourcemaps.write()))
-    .pipe(gulp.dest(`${outputDir}web/css/`))
+    .pipe(gulp.dest(`${outputDir}web${DS}css${DS}`))
 })
 
 gulp.task('php', () => {
@@ -144,7 +143,7 @@ gulp.task('mergeConfig', () => {
 })
 
 gulp.task('clean', () => {
-  $.delete.sync([`${outputDir}`, `${themeDir}.tmp`, `${themeDir}web/require-config.js`], {force: true})
+  $.delete.sync([`${outputDir}`, `${themeDir}.tmp`, `${themeDir}web${DS}require-config.js`], {force: true})
 })
 
 gulp.task('cacheClean', ['xml'], () => {
