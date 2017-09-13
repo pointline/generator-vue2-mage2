@@ -191,6 +191,13 @@ class Util {
   }
 
   /**
+   * Cache Clean
+   */
+  static isCache () {
+    return args.cache
+  }
+
+  /**
    * 代理URL
    * @returns {*}
    */
