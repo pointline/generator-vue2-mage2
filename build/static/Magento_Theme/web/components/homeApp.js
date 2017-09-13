@@ -10,6 +10,9 @@ define([], function () {
       return {
         msg: 'hello Peter'
       }
+    },
+    components: {
+
     }
   }
 })

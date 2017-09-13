@@ -1,6 +1,7 @@
 require([
-  'lib/vue',
-  'homeApp'
+  'vue',
+  'homeApp',
+  'modernizr.min'
 ], function (Vue, homeApp) {
   /* eslint no-new: "off" */
   new Vue({

@@ -7,14 +7,16 @@ const config = {
     }
   },
   paths: {
-    'lib/vue': 'Magento_Theme/web/lib/vue',
-    'homeApp': 'Magento_Theme/web/components/homeApp'
+    'vue': 'Magento_Theme/web/lib/vue',
+    'homeApp': 'Magento_Theme/web/components/homeApp',
+    'banner': 'Magento_Theme/web/components/banner',
+    'modernizr.min': 'Magento_Theme/web/lib/modernizr.min'
   },
   shim: {
 
   },
   deps: [
-    'Magento_Theme/web/lib/modernizr'
+
   ]
 }
 
