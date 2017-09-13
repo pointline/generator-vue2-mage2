@@ -53,10 +53,10 @@ gulp.task('scriptsDep', () => {
       .pipe($.plumber())
       .pipe(fLib)
       .pipe($.rename((path) => {
-        let dirname = path.dirname
-        path.dirname = dirname.slice(dirname.indexOf('/'))
+        let dirname = path.dirname.slice(path.dirname.indexOf('/')+1)
+        path.dirname = dirname.slice(dirname.indexOf('/')+4)
       }))
-      .pipe(gulp.dest(outputDir))
+      .pipe(gulp.dest(`${outputDir}web`))
   }
 })
 
@@ -147,7 +147,13 @@ gulp.task('clean', () => {
   $.delete.sync([`${outputDir}`, `${themeDir}.tmp`, `${themeDir}web/require-config.js`], {force: true})
 })
 
-gulp.task('cacheClean', ['xml'], Util.shell([
+gulp.task('cacheClean', ['xml'], () => {
+  if (Util.isCache()) {
+    gulp.start('shell')
+  }
+})
+
+gulp.task('shell', Util.shell([
   `php ${Util.mageBin()} cache:clean`
 ]))
 
