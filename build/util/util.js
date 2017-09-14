@@ -77,7 +77,7 @@ class Util {
    */
   static initConfigFile (dir, themeName) {
     let registration = fs.readFileSync('./build/static/registration.php', 'utf8')
-    let registrationR = registration.replace(/ThemePath/, dir.slice(2, dir.length-1))
+    let registrationR = registration.replace(/ThemePath/, `frontend/${config.themes[this.currentTheme()].src}`)
     outputFileSync(`${dir}/registration.php`, registrationR)
 
     let theme = fs.readFileSync('./build/static/theme.xml', 'utf8')
@@ -99,7 +99,6 @@ class Util {
     let currentTheme = this.currentTheme()
     if (currentTheme) {
       let theme = config.themes[currentTheme]
-      // return `./frontend/${theme.src}/`
       return path.join(__dirname, `../../frontend/${theme.src}/`)
     } else {
       return ''
@@ -162,7 +161,6 @@ class Util {
    * 合并所有require-config.js配置文件
    */
   static mergeConfig () {
-    // let themeDir = path.join(__dirname, `../../${this.themeDir()}`)
     let themeDir = this.themeDir()
     if (this.isDir(themeDir)) {
       let whitelist = /Magento_[\w]+(\/|\\)require-config.js/
