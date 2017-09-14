@@ -269,6 +269,14 @@ class Util {
   static ds () {
     return this.getOS() === "win32" ? "\\" : '/'
   }
+
+  /**
+   * 返回指定打开网站浏览器
+   * @returns {(string|string)[]}
+   */
+  static getBrowser () {
+    return config.siteConfig.browser
+  }
 }
 
 export default Util
