@@ -162,7 +162,8 @@ gulp.task('serve', () => {
       browserSync.init({
         notify: false,
         port: Util.port(),
-        proxy: Util.proxy()
+        proxy: Util.proxy(),
+        browser: Util.getBrowser()
       })
 
       gulp.watch(`${themeDir}**/*.scss`, ['styles']).on('change', reload)
