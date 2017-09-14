@@ -157,6 +157,7 @@ gulp.task('shell', Util.shell([
 ]))
 
 gulp.task('serve', () => {
+  if (!Util.isThemeDir()) return
   if (Util.proxy()) {
     $.sequence('clean', 'build', () => {
       browserSync.init({
