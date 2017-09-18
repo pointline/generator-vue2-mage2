@@ -1,15 +1,25 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
 -->
-<page layout="1columns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <update handle="default_head_blocks"/>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+      <referenceContainer name="base.body.head"></referenceContainer>
+      <referenceContainer name="base.content"></referenceContainer>
+      <referenceContainer name="base.body.end"></referenceContainer>
+      <referenceBlock name="authentication-popup" remove="true"/>
+      <referenceBlock name="customer.section.config" remove="true"/>
+      <referenceBlock name="customer.customer.data" remove="true"/>
+      <referenceBlock name="banner.data" remove="true"/>
+      <referenceBlock name="pageCache" remove="true"/>
+
+      <referenceContainer name="main">
         <referenceContainer name="silk.modules.wrapper">
-          <block class="Magento\Framework\View\Element\Template" name="silk.modules.home" as="silk_modules_home" template="Magento_Theme::module_home.phtml" />
+          <block class="Magento\Framework\View\Element\Template" name="silk.modules" as="silk_modules" template="Magento_Theme::modules.phtml" />
         </referenceContainer>
+      </referenceContainer>
     </body>
 </page>
