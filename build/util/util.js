@@ -62,7 +62,8 @@ class Util {
       makeDir(`${dir}/templates`),
       makeDir(`${dir}/web/components`),
       makeDir(`${dir}/web/modules`),
-      makeDir(`${dir}/web/lib`)
+      makeDir(`${dir}/web/lib`),
+      makeDir(`${dir}/web/util`)
     ]).then((path) => {
       gutil.log(gutil.colors.green(`模块创建成功：${dir}`))
     })
