@@ -1,18 +1,29 @@
 /* eslint no-undef: "off" */
-define([], function () {
+/**
+ * homeApp入口文件
+ */
+define([
+  'headerWrapper',
+  'footerWrapper',
+  'mainContainer'
+], function (headerWrapper, footerWrapper, mainContainer) {
   return {
     template: `
-      <div class="main-content">
-          <h1 v-text="msg"></h1>
+      <div class="page-container">
+          <header-wrapper></header-wrapper>
+          <main-container></main-container>
+          <footer-wrapper></footer-wrapper>
       </div>
     `,
     data () {
       return {
-        msg: 'hello Peter'
+
       }
     },
     components: {
-
+      headerWrapper,
+      footerWrapper,
+      mainContainer
     }
   }
 })

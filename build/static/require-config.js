@@ -1,8 +1,6 @@
 const config = {
   map: {
-    '*': {
 
-    }
   },
   paths: {
 

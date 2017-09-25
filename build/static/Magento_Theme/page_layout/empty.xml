@@ -7,10 +7,10 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
     <container name="root">
-        <container name="base.body.head" as="base.body.head" before="-" label="head"/>
-        <container name="page.content" as="page_content" htmlTag="div" htmlClass="page-content">
+        <container name="base.body.start" as="base_body_start" before="-" label="Page Top"/>
+        <container name="page.content" as="page_content" htmlTag="div" htmlClass="page-wrapper">
           <container name="main" label="Main Content Container" htmlTag="div" htmlClass="column main"/>
-          <container name="base.body.end" as="base.body.end" after="-" label="Page Bottom"/>
-        </container>
+          <container name="base.body.end" as="base_body_end" after="-" label="Page Bottom"/>
+      </container>
     </container>
 </layout>

@@ -7,16 +7,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-      <referenceContainer name="base.body.head"></referenceContainer>
-      <referenceContainer name="base.content"></referenceContainer>
-      <referenceContainer name="base.body.end"></referenceContainer>
-      <referenceBlock name="authentication-popup" remove="true"/>
-      <referenceBlock name="customer.section.config" remove="true"/>
-      <referenceBlock name="customer.customer.data" remove="true"/>
-      <referenceBlock name="banner.data" remove="true"/>
-      <referenceBlock name="pageCache" remove="true"/>
-
-      <referenceContainer name="main">
+      <referenceContainer name="page.content">
         <referenceContainer name="silk.modules.wrapper">
           <block class="Magento\Framework\View\Element\Template" name="silk.modules" as="silk_modules" template="Magento_Theme::modules.phtml" />
         </referenceContainer>

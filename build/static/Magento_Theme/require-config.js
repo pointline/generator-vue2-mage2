@@ -8,9 +8,12 @@ const config = {
   },
   paths: {
     'vue': 'Magento_Theme/web/lib/vue',
+    'util': 'Magento_Theme/web/util/util',
+    'modernizr.min': 'Magento_Theme/web/lib/modernizr.min',
     'homeApp': 'Magento_Theme/web/components/homeApp',
-    'banner': 'Magento_Theme/web/components/banner',
-    'modernizr.min': 'Magento_Theme/web/lib/modernizr.min'
+    'headerWrapper': 'Magento_Theme/web/components/common/headerWrapper',
+    'footerWrapper': 'Magento_Theme/web/components/common/footerWrapper',
+    'mainContainer': 'Magento_Theme/web/components/mainContainer'
   },
   shim: {
 

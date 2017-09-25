@@ -1,4 +1,20 @@
-// common
-@import "modules/common";
-// components
+//
+//  lib
+//  _____________________________________________
+//  rest css
+@import "lib/normalize.min";
+
+//
+//  variables
+//  _____________________________________________
+@import "components/variables/colors";
+
+//
+//  components
+//  _____________________________________________
 @import "components";
+
+//
+//  theme
+//  _____________________________________________
+@import "theme";

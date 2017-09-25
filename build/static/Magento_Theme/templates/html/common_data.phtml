@@ -1,0 +1,11 @@
+<?php
+/**
+ * 注入公共JSON数据
+ */
+$common_data = '{}'
+?>
+<script type="text/javascript">
+  'use strict'
+  var common = JSON.parse(<?php echo "'".$common_data."'"?>)
+  Object.freeze(common)
+</script>
