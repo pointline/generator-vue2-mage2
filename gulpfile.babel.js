@@ -134,7 +134,7 @@ gulp.task('images', () => {
 })
 
 gulp.task('fonts', () => {
-  return gulp.src(`${themeDir}**/*.{eot,svg,ttf,woff,woff2}`)
+  return gulp.src(`${themeDir}web/fonts/*.{eot,svg,ttf,woff,woff2}`)
     .pipe(gulp.dest(outputDir))
 })
 
@@ -164,6 +164,7 @@ gulp.task('serve', () => {
         notify: false,
         port: Util.port(),
         proxy: Util.proxy(),
+        middleware: Util.setProxyTable(),
         browser: Util.getBrowser()
       })
 

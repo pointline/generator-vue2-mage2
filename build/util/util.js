@@ -11,6 +11,7 @@ import requireDirectory from 'require-directory'
 import _ from 'lodash'
 import shell from 'gulp-shell'
 import os from 'os'
+import syncRequest from 'sync-request'
 
 /**
  * 工具类
@@ -200,7 +201,7 @@ class Util {
   }
 
   /**
-   * 代理URL
+   * 代理网站URL,进行前端开发
    * @returns {*}
    */
   static proxy () {
@@ -275,6 +276,42 @@ class Util {
    */
   static getBrowser () {
     return config.siteConfig.browser
+  }
+
+  /**
+   * 设置路由代理
+   */
+  static setProxyTable () {
+    let proxy = new Set()
+    let proxyTable = this.getProxyTable()
+    for (let item of Object.keys(proxyTable)) {
+      proxy.add({
+        route: item,
+        handle: function (req, res, next, toUrl = proxyTable[item].target) {
+          res.end(Util.createServe(toUrl))
+        }
+      })
+    }
+    return [...proxy]
+  }
+
+  /**
+   * 创建http请求获取数据
+   * @param url
+   * @returns {*}
+   */
+  static createServe (url) {
+    let res = syncRequest('GET', url)
+    return res.getBody('utf8')
+  }
+
+  /**
+   * 获取需要代理路由配置
+   * @returns {*}
+   */
+  static getProxyTable () {
+    let currentTheme = this.currentTheme()
+    return config.themes[currentTheme].proxyTable ? config.themes[currentTheme].proxyTable : {}
   }
 }
 
