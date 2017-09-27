@@ -86,7 +86,7 @@ class Util {
     outputFileSync(`${dir}/theme.xml`, themeR)
 
     gulp.src('./build/static/etc/view.xml').pipe(gulp.dest(`${dir}/etc`))
-    gulp.src('./build/static/media/preview.jpg').pipe(gulp.dest(`${dir}/media`))
+    gulp.src('./build/static/media/preview.{jpg,jpeg,png,gif,svg}').pipe(gulp.dest(`${dir}/media`))
 
     gulp.src('./build/static/web/**').pipe(gulp.dest(`${dir}/web`))
     gulp.src('./build/static/Magento_Theme/**').pipe(gulp.dest(`${dir}/Magento_Theme`))
