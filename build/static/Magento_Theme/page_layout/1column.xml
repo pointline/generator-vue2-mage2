@@ -8,28 +8,29 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
     <update handle="empty"/>
     <referenceContainer name="base.body.start">
-      <block class="Magento\Framework\View\Element\Template" name="silk.common_data" template="Magento_Theme::html/common_data.phtml"/>
+        <block class="Magento\Framework\View\Element\Template" name="silk.common_data" template="Magento_Theme::html/common_data.phtml"/>
     </referenceContainer>
     <referenceContainer name="page.content">
-      <container name="main">
-        <referenceContainer name="content">
-          <referenceBlock name="formkey" remove="true"/>
-          <referenceBlock name="authentication-popup" remove="true"/>
-          <referenceBlock name="customer.section.config" remove="true"/>
-          <referenceBlock name="customer.customer.data" remove="true"/>
-          <referenceBlock name="banner.data" remove="true"/>
-          <referenceBlock name="pageCache" remove="true"/>
-        </referenceContainer>
-      </container>
-
-      <!--自定义页面结构-->
-      <container name="silk.main.container" as="silk_main_container" label="silk main container">
-
-        <container name="silk.content" as="silk_content">
-          <block class="Magento\Framework\View\Element\Template" name="silk.app" as="silk_app" template="Magento_Theme::html/app.phtml"/>
+        <container name="main">
+            <referenceContainer name="content">
+                <referenceBlock name="formkey" remove="true"/>
+                <referenceBlock name="authentication-popup" remove="true"/>
+                <referenceBlock name="customer.section.config" remove="true"/>
+                <referenceBlock name="customer.customer.data" remove="true"/>
+                <referenceBlock name="banner.data" remove="true"/>
+                <referenceBlock name="pageCache" remove="true"/>
+                <referenceBlock name="customer.data.invalidation.rules" remove="true"/>
+            </referenceContainer>
         </container>
 
-        <container name="silk.modules.wrapper" as="silk_modules_wrapper"></container>
-      </container>
+        <!--自定义页面结构-->
+        <container name="silk.main.container" as="silk_main_container" label="silk main container">
+
+            <container name="silk.content" as="silk_content">
+                <block class="Magento\Framework\View\Element\Template" name="silk.app" as="silk_app" template="Magento_Theme::html/app.phtml"/>
+            </container>
+
+            <container name="silk.modules.wrapper" as="silk_modules_wrapper"></container>
+        </container>
     </referenceContainer>
 </layout>
