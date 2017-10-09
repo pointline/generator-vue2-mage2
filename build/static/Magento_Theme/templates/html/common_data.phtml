@@ -2,10 +2,10 @@
 /**
  * 注入公共JSON数据
  */
-$common_data = '{}'
+$common_data = $this->getCommonJson();
 ?>
 <script type="text/javascript">
-  'use strict'
-  var common = JSON.parse(<?php echo "'".$common_data."'"?>)
-  Object.freeze(common)
+  'use strict';
+  var common = <?php echo $common_data;?> ? <?php echo $common_data;?> : {}
+    Object.freeze(common)
 </script>

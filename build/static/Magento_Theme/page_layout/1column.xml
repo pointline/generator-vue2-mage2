@@ -8,7 +8,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
     <update handle="empty"/>
     <referenceContainer name="base.body.start">
-        <block class="Magento\Framework\View\Element\Template" name="silk.common_data" template="Magento_Theme::html/common_data.phtml"/>
+        <block class="Silk\Restful\Block\Common" name="silk.common_data" template="Magento_Theme::html/common_data.phtml"/>
     </referenceContainer>
     <referenceContainer name="page.content">
         <container name="main">
