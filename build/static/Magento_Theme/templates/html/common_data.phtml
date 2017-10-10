@@ -1,17 +1,14 @@
 <?php
 /**
  * 注入公共JSON数据
+ * 如果本phtml设置了Block数据，则开启以下注释行
  */
-/**
- * 如果本phtml继承Block，则开启下面这一行
- */
-//$common_data = $this->getCommonJson();
-$commonData = false;
+//$commonData = $this->getCommonJson();
 ?>
 <script type="text/javascript">
   'use strict';
-  var commonData = <?php echo $commonData;?>;
-  var isFlag = Boolean(commonData);
-  var commonDataJSON = isFlag ? commonData : {};
-  Object.freeze(commonDataJSON)
+  (function () {
+//    var commonDataJSON = <?php //echo $commonData;?>//;
+//    Object.freeze(commonDataJSON);
+  })()
 </script>
