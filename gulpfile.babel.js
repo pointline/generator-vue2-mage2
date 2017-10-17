@@ -50,7 +50,7 @@ gulp.task('scriptsDep', () => {
     let fLib = $.filter((file) => {
       return Boolean(file.path.match(fLibRegExp))
     })
-    return gulp.src(`${themeDir}.tmp/**/lib/*.js`)
+    return gulp.src(`${themeDir}.tmp/**/lib/**/*.js`)
       .pipe($.plumber())
       .pipe(fLib)
       .pipe($.rename((path) => {
