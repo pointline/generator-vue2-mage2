@@ -5,7 +5,10 @@ import browserSync from 'browser-sync'
 
 const $ = gulpLoadPlugins({
   lazy: true,
-  pattern: ['gulp-*', 'gulp.*', '@*/gulp{-,.}*', 'cssnano', 'autoprefixer', 'delete']
+  pattern: ['gulp-*', 'gulp.*', '@*/gulp{-,.}*', 'cssnano', 'autoprefixer', 'delete', 'less-plugin-est'],
+  rename: {
+    'less-plugin-est': 'Est'
+  }
 })
 const themeDir = Util.themeDir()
 const outputDir = Util.outputDir()
@@ -106,14 +109,13 @@ gulp.task('phtml', () => {
 })
 
 gulp.task('styles', () => {
-  return gulp.src(`${themeDir}web/css/main.scss`)
+  let est = new $.Est()
+  return gulp.src(`${themeDir}web/css/main.less`)
     .pipe($.plumber())
     .pipe($.if(!Util.mode(), $.sourcemaps.init()))
-    .pipe($.sass.sync({
-      outputStyle: 'expanded',
-      precision: 10,
-      includePaths: ['.']
-    }).on('error', $.sass.logError))
+    .pipe($.less({
+      plugins: [est]
+    }))
     .pipe($.postcss([
       $.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}),
       $.cssnano()
