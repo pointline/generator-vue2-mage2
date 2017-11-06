@@ -10,7 +10,7 @@ const args = yargs.options({
     demandOption: true
   },
   'mode': {
-    alias: 'prod',
+    alias: 'p',
     type: 'boolean',
     default: false,
     desc: 'Production mode'
@@ -21,8 +21,7 @@ const args = yargs.options({
     default: false,
     desc: 'Cache Clean'
   },
-  'prot': {
-    alias: 'p',
+  'port': {
     type: 'number',
     default: 9000,
     desc: 'Prot'
