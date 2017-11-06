@@ -130,6 +130,9 @@ gulp.task('php', () => {
 })
 
 gulp.task('images', () => {
+  gulp.src(`${themeDir}media/preview.png`)
+    .pipe(gulp.dest(`${outputDir}media`))
+
   return gulp.src(`${themeDir}web/images/*.{jpg,jpeg,png,gif,svg}`)
     .pipe($.if(Util.mode(), $.cache($.imagemin())))
     .pipe(gulp.dest(outputDir))
