@@ -1,7 +1,6 @@
 require([
   'vue',
-  'homeApp',
-  'modernizr.min'
+  'homeApp'
 ], function (Vue, homeApp) {
   /* eslint no-new: "off" */
   Vue.config.productionTip = false
