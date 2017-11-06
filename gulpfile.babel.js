@@ -32,7 +32,7 @@ gulp.task('babel', () => {
   let fLib = $.filter((file) => {
     return !/lib/ig.test(file.path)
   }, {restore: true})
-  return gulp.src([`${themeDir}**/*.js`, `!${themeDir}*/require-config.js`])
+  return gulp.src([`${themeDir}**/*.js`, `!${themeDir}*/require-config.js`, `!${themeDir}web/**/*.js`])
     .pipe($.plumber())
     .pipe(fLib)
     .pipe($.babel())
@@ -130,7 +130,7 @@ gulp.task('php', () => {
 })
 
 gulp.task('images', () => {
-  return gulp.src(`${themeDir}**/*.{jpg,jpeg,png,gif,svg}`)
+  return gulp.src(`${themeDir}web/images/*.{jpg,jpeg,png,gif,svg}`)
     .pipe($.if(Util.mode(), $.cache($.imagemin())))
     .pipe(gulp.dest(outputDir))
 })
