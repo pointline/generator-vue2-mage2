@@ -117,7 +117,7 @@ gulp.task('styles', () => {
       plugins: [est]
     }))
     .pipe($.postcss([
-      $.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}),
+      $.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'ie 9']}),
       $.cssnano()
     ]))
     .pipe($.if(!Util.mode(), $.sourcemaps.write()))
